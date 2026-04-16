@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Login</title>
+</head>
+
+<body>
+
+<h2>Login</h2>
+<form>
+<input id="username" placeholder="please type in...">
+<span>Username</span>
+<br></br>
+<input id="password" placeholder="please type in...">
+<span>Password</span>
+<br></br>
+
+<button type="button" onclick="login()">Login</button>
+<button onclick="createAccount()">Create Account</button>
+
+<script>
+function getUsers() {
+  return JSON.parse(localStorage.getItem("users")) || [];
+}
+
+function saveUsers(users) {
+  localStorage.setItem("users", JSON.stringify(users));
+}
+
+function createAccount() {
+  let username = document.getElementById("username").value;
+  let password = document.getElementById("password").value;
+
+  if (!username || !password) {
+    alert("please fill out");
+    return;
+  }
+
+  let users = getUsers();
+
+  let exists = users.find(u => u.username === username);
+
+  if (exists) {
+    alert("User already existing");
+    return;
+  }
+
+  users.push({ username, password });
+  saveUsers(users);
+
+  alert("Account created!");
+}
+
+function login() {
+  let username = document.getElementById("username").value;
+  let password = document.getElementById("password").value;
+
+  let users = getUsers();
+
+  let found = users.find(u =>
+    u.username === username && u.password === password
+  );
+
+  if (!found) {
+    alert("False Data");
+    return;
+  }
+
+  localStorage.setItem("loggedIn", "true");
+
+  alert("Login succceed");
+
+  //Weiterleitung
+  window.location.href= "fence.html";
+}
+</script>
+
+<script>
+function getUsers() {
+  return JSON.parse(localStorage.getItem("users")) || [];
+}
+
+function saveUsers(users) {
+  localStorage.setItem("users", JSON.stringify(users));
+}
+
+function createAccount() {
+  let username = document.getElementById("username").value;
+  let password = document.getElementById("password").value;
+
+  //  prüfen ob leer
+  if (username === "" || password === "") {
+    alert("please fill out");
+    return;
+  }
+
+  let users = getUsers();
+
+  //  prüfen ob User schon existiert
+  let exists = users.find(u => u.username === username);
+
+  if (exists) {
+    alert("user already existing");
+    return;
+  }
+
+  //  speichern
+  users.push({
+    username: username,
+    password: password
+  });
+
+  saveUsers(users);
+
+  alert("acount created");
+}
+</script>
+</form>
+</body>
+</html>
